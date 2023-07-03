@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="scanner-container"></div>
+
+    <script src="./quagga.min.js"></script>
+    <script>
+        // Configuration object for QuaggaJS
+        var scannerConfig = {
+          inputStream: {
+            name: "Live",
+            type: "LiveStream",
+            target: document.querySelector("#scanner-container"),
+          },
+          decoder : {
+            readers : ["code_128_reader"]
+          }
+        };
+      
+        // Initialize the scanner
+        Quagga.init(scannerConfig, function (err) {
+          if (err) {
+            console.error(err);
+            return;
+          }
+          Quagga.start();
+        });
+      
+        // Register a callback for successful barcode detection
+        Quagga.onDetected(function (result) {
+          var barcodeValue = result.codeResult.code;
+          if (barcodeValue){
+             alert("Barcode value: " + barcodeValue);
+          }
+        });
+      </script>
+      
+</body>
+</html>
